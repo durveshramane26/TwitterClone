@@ -1,12 +1,12 @@
 $("#postTextarea").keyup(event => {
     var textbox = $(event.target);
-    var value =  textbox.val().trim();
-
+    var value = textbox.val().trim();
+    
     var submitButton = $("#submitPostButton");
 
     if(submitButton.length == 0) return alert("No submit button found");
 
-    if(value == "") {
+    if (value == "") {
         submitButton.prop("disabled", true);
         return;
     }
@@ -23,12 +23,11 @@ $("#submitPostButton").click((event) => {
     }
 
     $.post("/api/posts", data, postData => {
-
+        
         var html = createPostHtml(postData);
         $(".postsContainer").prepend(html);
         textbox.val("");
         button.prop("disabled", true);
-
     })
 })
 
@@ -42,9 +41,12 @@ $(document).on("click", ".likeButton", (event) => {
         url: `/api/posts/${postId}/like`,
         type: "PUT",
         success: (postData) => {
-            console.log(postData);
+            
+            button.find("span").text(postData.likes.length || "");
+
         }
     })
+
 })
 
 function getPostIdFromElement(element) {
@@ -52,17 +54,19 @@ function getPostIdFromElement(element) {
     var rootElement = isRoot == true ? element : element.closest(".post");
     var postId = rootElement.data().id;
 
-    if(postId  === undefined) return alert("Post is undefined");
+    if(postId === undefined) return alert("Post id undefined");
 
     return postId;
 }
 
 function createPostHtml(postData) {
+    
     var postedBy = postData.postedBy;
 
-    if(postedBy._id === undefined){
-        return console.log("User object not")
+    if(postedBy._id === undefined) {
+        return console.log("User object not populated");
     }
+
     var displayName = postedBy.firstName + " " + postedBy.lastName;
     var timestamp = timeDifference(new Date(), new Date(postData.createdAt));
 
@@ -84,7 +88,7 @@ function createPostHtml(postData) {
                         <div class='postFooter'>
                             <div class='postButtonContainer'>
                                 <button>
-                                    <i class='fas fa-comment'></i>
+                                    <i class='far fa-comment'></i>
                                 </button>
                             </div>
                             <div class='postButtonContainer'>
@@ -94,7 +98,8 @@ function createPostHtml(postData) {
                             </div>
                             <div class='postButtonContainer'>
                                 <button class='likeButton'>
-                                    <i class='fas fa-heart'></i>
+                                    <i class='far fa-heart'></i>
+                                    <span>${postData.likes.length || ""}</span>
                                 </button>
                             </div>
                         </div>
