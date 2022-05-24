@@ -44,6 +44,13 @@ $(document).on("click", ".likeButton", (event) => {
             
             button.find("span").text(postData.likes.length || "");
 
+            if(postData.likes.includes(userLoggedIn._id)) {
+                button.addClass("active");
+            }
+            else {
+                button.removeClass("active");
+            }
+
         }
     })
 
@@ -91,12 +98,12 @@ function createPostHtml(postData) {
                                     <i class='far fa-comment'></i>
                                 </button>
                             </div>
-                            <div class='postButtonContainer'>
-                                <button>
+                            <div class='postButtonContainer green'>
+                                <button class='retweet'>
                                     <i class='fas fa-retweet'></i>
                                 </button>
                             </div>
-                            <div class='postButtonContainer'>
+                            <div class='postButtonContainer red'>
                                 <button class='likeButton'>
                                     <i class='far fa-heart'></i>
                                     <span>${postData.likes.length || ""}</span>
