@@ -115,8 +115,18 @@ function createPostHtml(postData) {
     var likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : "";
     var retweetButtonActiveClass = postData.retweetUsers.includes(userLoggedIn._id) ? "active" : "";
 
-    return `<div class='post' data-id='${postData._id}'>
 
+    var  retweetText = '';
+    if(isRetweet) {
+        retweetText = `<span>
+                        <i class='fas fa-retweet'></i>
+                        Retweeted  by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>
+                       </span>`
+    }
+    return `<div class='post' data-id='${postData._id}'>
+                <div class='postActionContainer'>
+                    ${retweetText}
+                </div>
                 <div class='mainContentContainer'>
                     <div class='userImageContainer'>
                         <img src='${postedBy.profilePic}'>
