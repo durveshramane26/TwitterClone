@@ -5,23 +5,27 @@ const bodyParser = require("body-parser")
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
 const { response } = require('express');
+const { filters } = require('pug/lib');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/", (req, res, next) => {
-    Post.find()
-    .populate("postedBy")
-    .populate("retweetData")
-    .sort({ "createdAt": -1 })
-    .then( async results => {
-        results = await User.populate(results, {path: "retweetData.postedBy"});
-        res.status(200).send(results)
-    })
-    .catch(error => {
-        console.log(error);
-        res.sendStatus(400);
-    })
+router.get("/", async (req, res, next) => {
+    
+    var results = await getPosts();
+    res.status(200).send(results);
 })
+
+router.get("/:id",async  (req, res, next) => {
+
+    var postId = req.params.id;
+
+    var results = await getPosts({ _id: postId});
+    results = results[0];
+
+    res.status(200).send(results);
+   
+})
+
 
 router.post("/", async (req, res, next) => {
 
@@ -117,4 +121,15 @@ router.post("/:id/retweet", async (req, res, next) => {
 
     res.status(200).send(post)
 })
+
+async function getPosts(filter) {
+    var results = await Post.find(filter)
+    .populate("postedBy")
+    .populate("retweetData")
+    .sort({ "createdAt": -1 })
+    .catch(error => console.log(error))
+
+    return await User.populate(results, {path: "retweetData.postedBy"});
+    
+}
 module.exports = router;
