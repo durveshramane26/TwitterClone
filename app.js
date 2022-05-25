@@ -39,7 +39,7 @@ app.use("/register",registerRoute);
 app.use("/logout",logoutRoute);
 app.use("/posts",postRoute);
 
-app.use("/api/posts",postsApiRoute);
+app.use("/api/posts", middleware.requireLogin, postsApiRoute);
 
 
 app.get("/", middleware.requireLogin, (req, res, next) => {
