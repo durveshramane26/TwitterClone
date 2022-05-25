@@ -45,6 +45,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
     })
 })
 
+$("#replyModal").on("hidden.bs.modal", () => $("#orginalPostContainer").html(""));
 
 $(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
@@ -115,8 +116,6 @@ function createPostHtml(postData) {
     var retweetedBy =   isRetweet ? postData.postedBy.username : null;
     postData = isRetweet ? postData.retweetData : postData;
    
-
-
     
     var postedBy = postData.postedBy;
 
