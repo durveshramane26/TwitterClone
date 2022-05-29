@@ -3,7 +3,10 @@ extends layouts/main-layout.pug
 block content
     if !profileUser
         span.errorMessage Check the url you are trying to access
-    else  
+    else 
+        script.
+            var profileUserId = '!{profileUser._id};'
+ 
         .profileHeaderContainer
             .coverPhotoContainer
 
@@ -26,6 +29,10 @@ block content
                     a(href=`/profile/${profileUser.username}/followers`)
                         span.value #{0}
                         span Followers
+
+        .tabsContainer     
+            +createTab("Posts",`/profile/${profileUser.username}`, true)
+            +createTab("Replies",`profile/${profileUser.username}/replies`, false)   
         .postsContainer
 
         +createPostModals(userLoggedIn)
