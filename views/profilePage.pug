@@ -13,7 +13,7 @@ block content
                 if profileUser._id != userLoggedIn._id
                     a.profileButton(href=`/messages/${profileUser._id}`)
                         i.fas.fa-envelope
-                    +createFollowButton(profileUser, false)
+                    +createFollowButton(profileUser, true)
 
         .postsContainer
 
