@@ -50,6 +50,10 @@ nav a{
     color:#212529;
 }
 
+.wrapper > .row {
+    margin: 0;
+}
+
 nav a.blue {
     color:var(--blue);
 }
