@@ -155,6 +155,7 @@ $(document).on("click", ".followButton", (e) => {
             }
 
 
+            var difference = 1;
 
             if(data.following && data.following.includes(userId)) {
                 button.addClass("following");
@@ -163,6 +164,15 @@ $(document).on("click", ".followButton", (e) => {
             else {
                 button.removeClass("following");
                 button.text("Follow");
+                difference = -1;
+            }
+
+            var followersLabel = $("#followersValue");
+            if(followersLabel.length != 0) {
+                var followersText = followersLabel.text();
+                followersText = parseInt(followersText);
+                followersLabel.text(followersText + difference); 
+
             }
 
         }
