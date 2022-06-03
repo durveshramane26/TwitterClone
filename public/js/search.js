@@ -27,7 +27,7 @@ function search(searchTerm, searchType) {
 
 
         if(searchType == "users") {
-
+            outputUsers(results, $(".resultsContainer"))
         }
         else {
             outputPosts(results, $(".resultsContainer"))
