@@ -8,4 +8,5 @@ const messageSchema = new Schema({
     readBy: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
-module.exports = mongoose.model('Message', messageSchema);
+var Message = mongoose.model('Message', messageSchema);
+module.exports = Message;
