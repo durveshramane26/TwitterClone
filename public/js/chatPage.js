@@ -1,5 +1,9 @@
 $(document).ready(() => {
     $.get(`/api/chats/${chatId}`, (data) => $("#chatName").text(getChatName(data)))
+
+     $.get(`/api/chats/${chatId}/messages`, (data) => {
+         console.log(data);
+     })
 })
 
 $("#chatNameButton").click(() => {
@@ -43,6 +47,12 @@ function messageSubmitted() {
 
 function sendMessage(content) {
     $.post("/api/messages", { content: content, chatId: chatId }, (data, status, xhr) => {
+
+        if(xhr.status != 201) {
+            alert("Could not send message");
+            $(".inputTextbox").val(content);
+            return;
+        }
         
         addChatMessageHtml(data);
 
