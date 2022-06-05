@@ -73,6 +73,11 @@ app.get("/", middleware.requireLogin, (req, res, next) => {
     res.status(200).render("home", payload);
 })
 
-io.on("connection", (socket) => {
-    console.log("Connected  to socket io")
+io.on("connection", socket => {
+
+    socket.on("setup", userData => {
+        socket.join(userData._id);
+        socket.emit("connected");
+    })
+
 })
