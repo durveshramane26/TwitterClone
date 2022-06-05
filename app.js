@@ -9,7 +9,9 @@ const session = require("express-session");
 
 
 
+
 const server = app.listen(port, () => console.log("Server Listening on port "+ port));
+const io = require("socket.io")(server, { pingTimeout: 60000 });
 
 app.set("view engine", "pug");
 app.set("views", "views");
@@ -40,6 +42,7 @@ const  postsApiRoute = require('./routes/api/posts');
 const  usersApiRoute = require('./routes/api/users');
 const  chatsApiRoute = require('./routes/api/chats');  
 const  messagesApiRoute = require('./routes/api/messages');
+const { Socket } = require('socket.io');
 
 
 app.use("/login", loginRoute);
@@ -68,4 +71,8 @@ app.get("/", middleware.requireLogin, (req, res, next) => {
         userLoggedInJs: JSON.stringify(req.session.user )
     }
     res.status(200).render("home", payload);
+})
+
+io.on("connection", (socket) => {
+    console.log("Connected  to socket io")
 })
