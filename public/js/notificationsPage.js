@@ -17,13 +17,59 @@ function outputNotificationList(notifications, container) {
 
 function createNotificationHtml(notification) {
     var userFrom = notification.userFrom;
+    var text = getNotificationText(notification);
+    var href = getNotificationUrl(notification);
 
-    return `<a href='#' class='resultListItem notification'>
+    return `<a href='${href}' class='resultListItem notification'>
                 <div class='resultsImageContainer'>
                     <img src='${userFrom.profilePic}'>
                 </div>
                 <div class='resultsDetailsContainer ellipsis'>
-                    <span class='ellipsis'>This is the text</span>
+                    <span class='ellipsis'>${text}</span>
                 </div>
             </a>`;
+}
+
+function getNotificationText(notification) {
+
+    var userFrom = notification.userFrom;
+
+    if(!userFrom.firstName || !userFrom.lastName) {
+        return alert("user from data not populated");
+    }
+
+    var userFromName = `${userFrom.firstName} ${userFrom.lastName}`;
+    
+    var text;
+
+    if(notification.notificationType == "retweet") {
+        text = `${userFromName} retweeted one of your posts`;
+    }
+    else if(notification.notificationType == "postLike") {
+        text = `${userFromName} liked one of your posts`;
+    }
+    else if(notification.notificationType == "reply") {
+        text = `${userFromName} replied to one of your posts`;
+    }
+    else if(notification.notificationType == "follow") {
+        text = `${userFromName} followed you`;
+    }
+
+    return `<span class='ellipsis'>${text}</span>`;
+}
+
+function getNotificationUrl(notification) { 
+    var url = "#";
+
+    if(notification.notificationType == "retweet" || 
+        notification.notificationType == "postLike" || 
+        notification.notificationType == "reply") {
+            
+        url = `/posts/${notification.entityId}`;
+    }
+    else if(notification.notificationType == "follow") {
+        url = `/profile/${notification.entityId}`;
+    }
+
+    return url;
 }
