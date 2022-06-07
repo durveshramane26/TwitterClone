@@ -45,6 +45,7 @@ $("#submitPostButton, #submitReplyButton").click(() => {
     $.post("/api/posts", data, postData => {
 
         if(postData.replyTo) {
+            emitNotification(postData.replyTo.postedBy)
             location.reload();
         }
         else {
@@ -241,7 +242,7 @@ $("#userSearchTextbox").keydown((event) => {
     if (value == "" && (event.which == 8 || event.keyCode == 8)) {
         // remove user from selection
         selectedUsers.pop();
-        updateSelectedUsersHtml()
+        updateSelectedUsersHtml();
         $(".resultsContainer").html("");
 
         if(selectedUsers.length == 0) {
@@ -290,6 +291,7 @@ $(document).on("click", ".likeButton", (event) => {
 
             if(postData.likes.includes(userLoggedIn._id)) {
                 button.addClass("active");
+                emitNotification(postData.postedBy)
             }
             else {
                 button.removeClass("active");
@@ -314,6 +316,7 @@ $(document).on("click", ".retweetButton", (event) => {
 
             if(postData.retweetUsers.includes(userLoggedIn._id)) {
                 button.addClass("active");
+                emitNotification(postData.postedBy)
             }
             else {
                 button.removeClass("active");
@@ -351,6 +354,7 @@ $(document).on("click", ".followButton", (e) => {
             if(data.following && data.following.includes(userId)) {
                 button.addClass("following");
                 button.text("Following");
+                emitNotification(userId);
             }
             else {
                 button.removeClass("following");
@@ -566,7 +570,6 @@ function outputPostsWithReplies(results, container) {
     });
 }
 
-
 function outputUsers(results, container) {
     container.html("");
 
@@ -637,7 +640,7 @@ function outputSelectableUsers(results, container) {
 
 function userSelected(user) {
     selectedUsers.push(user);
-    updateSelectedUsersHtml();
+    updateSelectedUsersHtml()
     $("#userSearchTextbox").val("").focus();
     $(".resultsContainer").html("");
     $("#createChatButton").prop("disabled", false);
@@ -673,7 +676,6 @@ function getOtherChatUsers(users) {
 
     return users.filter(user => user._id != userLoggedIn._id);
 }
-
 
 function messageReceived(newMessage) {
     if($(".chatContainer").length == 0) {
