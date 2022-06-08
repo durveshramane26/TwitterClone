@@ -1,6 +1,6 @@
 var connected = false;
-
-var socket = io("https://morning-ridge-27369.herokuapp.com:8168")
+ws://your-app.herokuapp.com:9352/socket.io/?EIO=4&transport=websocket
+var socket = io("ws://morning-ridge-27369.herokuapp.com:8168/socket.io/?EIO=4&transport=websocket")
 socket.emit("setup", userLoggedIn);
 
 socket.on("connected", () => connected = true);
