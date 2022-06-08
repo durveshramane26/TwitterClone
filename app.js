@@ -10,7 +10,7 @@ const session = require("express-session");
 
 
 
-const server = app.listen(port, () => console.log("Server Listening on port "+ port));
+const server = app.listen(process.env.port || port, () => console.log("Server Listening on port "+ port));
 const io = require("socket.io")(server, { pingTimeout: 60000 });
 
 app.set("view engine", "pug");
