@@ -29,7 +29,7 @@ router.get("/", async (req, res, next) => {
         if(followingOnly) {
             var objectIds = [];
             
-            if(!req.session.user.following) {
+            if(!req?.session?.user?.following) {
                 req.session.user.following = [];
             }
 
