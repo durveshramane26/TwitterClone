@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 router.get("/", async (req, res, next) => {
 
-    var searchObj = { userTo: req.session.user._id, notificationType: { $ne: "newMessage" } };
+    var searchObj = { userTo: req.session.user._id , notificationType: { $ne: "newMessage" } };
 
     if(req.query.unreadOnly !== undefined && req.query.unreadOnly == "true") {
         searchObj.opened = false;
