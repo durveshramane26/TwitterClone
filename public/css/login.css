@@ -483,6 +483,10 @@ i {
     .panel .content {
       padding: 0.5rem 1rem;
     }
+    .panel.right-panel {
+        position: absolute;
+        top: -60px;
+    }
     .container {
       padding: 1.5rem;
     }
