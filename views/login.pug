@@ -1,14 +1,143 @@
-extends layouts/login-layout.pug
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='icon' type='image/ico' href='/images/appicon.ico') 
+  script(src='https://kit.fontawesome.com/64d58efce2.js' crossorigin='anonymous')
+  link(rel='stylesheet' href='/css/login.css')
+  title Sign In &amp; Sign up Form
+body 
+.container
+  .forms-container
+    .signin-signup
+      form.sign-in-form(method="post")
+        p.loginError #{errorMessage}
+        h2.title Sign in
+        .input-field
+          i.fas.fa-user
+          input#loginusername(type="text" ,name="logUsername" placeholder="Username or email", value=logUsername required="")
+        .input-field
+          i.fas.fa-lock
+          input#loginpassword(type="password", name="logPassword", placeholder="Password", required="")
+        div 
+        input.btn.solid(type='submit' value='Login')
+        button.btn.solid#Guestlogin Guest Login
+        block content 
+        
+      form#registerForm.sign-up-form(method="post",onsubmit="event.preventDefault(); validateForm();")
+        p.registerError #{errorMessage}
+        h2.title Sign up
+        .input-field
+          i.fas.fa-user
+          input(type="text", name="firstName", placeholder="First name", value=firstName required="")
+        .input-field
+          i.fas.fa-user
+          input(type="text", name="lastName", placeholder="Last name", value=lastName required="")
+        .input-field
+          i.fas.fa-user
+          input(type="text", name="username", placeholder="Username",value=username required="")
+        .input-field
+          i.fas.fa-envelope
+          input(type="email", name="email", placeholder="Email", value=email required="")
+        .input-field
+          i.fas.fa-lock
+          input#password(type="password", name="password", placeholder="Password", required="")
+        .input-field
+          i.fas.fa-lock
+          input#passwordConf(type="password", name="passwordConf", placeholder="Confirm password", required="")
+        input.btn.solid(type='submit' value='Login')
+        
+        
+  .panels-container
+    .panel.left-panel
+      .content
+        h1 TweetChat
+          i.fas.fa-dove 
+        h3 New here ?
+        p
+          | Create Your Account........... And Explore the World!!!!!!!
+        button#sign-up-btn.btn.transparent Sign up
+      img.image(src='/images/log.svg' alt='')
+    .panel.right-panel
+      .content
+        h1 Tweetchat 
+          i.fas.fa-dove 
+        h3 One of us ?
+        p
+          | Login and start Tweeting and chating with your Best Buddies!!!!
+        button#sign-in-btn.btn.transparent Sign in
+      img.image(src='/images/desk.svg' alt='')
+script.
+    let islogin = true;
+    
 
-block content 
-    .loginContainer 
-        h1 Login 
-        form(method="post") 
+    var passwordField = document.getElementById("password")
+    var passwordConfirmField = document.getElementById("passwordConf")
+    var form = document.getElementById("registerForm")
+    
+    function validateForm() {
+            console.log("validating");
 
-            p.errorMessage #{errorMessage}
+            //- var regix = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,16})");
+            //- if(regix.test(passwordField) == false ) {
+            //-     alert("password must be a minimum of 8 characters including number, Upper, Lower And one special character")
+                
+            //- }
+
+            //- var regex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+
+            //- var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+
+            //- if (!passwordField.value.match(decimal)) {
+            //-     alert("password must be a minimum of 8 characters including number, Upper, Lower And one special character")
+            //-     return false;     
+
+            //- }
+            
+
+        if(passwordField.value != passwordConfirmField.value) {
+            alert("passwords do not match. Please try again")                
+            return false;
+        }
+
+        else {
+            form.submit();
+            return true;
+        }
+    }
+
+    const sign_in_btn = document.querySelector("#sign-in-btn");
+    const sign_up_btn = document.querySelector("#sign-up-btn");
+    const container = document.querySelector(".container")
+    const loginError = document.querySelector(".loginError")
+    const guestlogin = document.getElementById("Guestlogin").addEventListener("click",() => {
+      const username = document.querySelector("#loginusername")
+      const password = document.querySelector("#loginpassword")
+      username.value = "shinchan"
+      password.value = "shinchan"
 
 
-            input(type="text", name="logUsername", placeholder="Username or email", value=logUsername required="")
-            input(type="password", name="logPassword", placeholder="Password", required="")
-            input(type="submit", value="Login")
-        a(href="/register") Need an account? Register here.
+
+    console.log(username)
+    })
+    console.log("dirvesj",loginError)
+    const registerError = document.querySelector(".registerError")
+    console.log("dirj",registerError)
+    
+
+    sign_up_btn.addEventListener('click', () => {
+        islogin = false;
+        container.classList.add("sign-up-mode");
+    });
+
+    sign_in_btn.addEventListener('click', () => {
+        islogin = true;
+        container.classList.remove("sign-up-mode");
+    });
+    
+
+
+
+   
+
