@@ -1,7 +1,7 @@
 var connected = false;
 //ws://your-app.herokuapp.com:9352/socket.io/?EIO=4&transport=websocket
 //var socket = io("https://tweetchat.herokuapp.com")
-var socketUrl = "https://tweetchat.herokuapp.com"; 
+var socketUrl = "https://twitterchat.up.railway.app/"; 
  
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") { 
     socketUrl = "http://localhost:3003";
